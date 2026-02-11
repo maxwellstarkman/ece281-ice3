@@ -43,12 +43,29 @@ begin
 	begin
 	
 	   -- Test all zeros input
-	   w_addends <= x"00"; w_Cin <= '0'; wait for 10 ns;
-	       assert (w_sum = x"0" and w_Cout = '0') report "bad with zeros" severity failure;
-       -- Test all ones input
-       w_addends <= x"FF"; w_Cin <= '1'; wait for 10 ns;
-	       assert (w_sum = x"F" and w_Cout = '1') report "bad with ones" severity failure;
-       -- TODO, a few other test cases
+        w_addends <= x"00"; w_Cin <= '0'; wait for 10 ns;
+        assert (w_sum = x"0" and w_Cout = '0') 
+            report "Fail: 0 + 0 + 0" severity failure;
+        
+        w_addends <= x"FF"; w_Cin <= '1'; wait for 10 ns;
+        assert (w_sum = x"F" and w_Cout = '1') 
+            report "Fail: F + F + 1" severity failure;
+        
+        w_addends <= x"88"; w_Cin <= '0'; wait for 10 ns;
+        assert (w_sum = x"0" and w_Cout = '1') 
+            report "Fail: 8 + 8" severity failure;
+        
+        w_addends <= x"00"; w_Cin <= '1'; wait for 10 ns;
+        assert (w_sum = x"1" and w_Cout = '0') 
+            report "Fail: Carry-in check" severity failure;
+        
+        w_addends <= x"53"; w_Cin <= '0'; wait for 10 ns;
+        assert (w_sum = x"8" and w_Cout = '0') 
+            report "Fail: 5 + 3" severity failure;
+        
+        w_addends <= x"71"; w_Cin <= '0'; wait for 10 ns;
+        assert (w_sum = x"8" and w_Cout = '0') 
+            report "Fail: 7 + 1" severity failure;
 	
 		wait; -- wait forever
 	end process;	
